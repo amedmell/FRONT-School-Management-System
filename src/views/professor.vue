@@ -1,16 +1,16 @@
 <template>
     <div v-bind:id=divId>
 
-        <webapp-sidebar  @changeId="changedId" :user_name="user['name']" /> 
+        <webapp-sidebar  @changeId="changedId" :user_name="user.name"/> 
 <!-- -----------------------NOITHING IN HERE ------------------------------------------->
         <div id="content" >
 
             <webapp-header :user_name="user.name" :user_email="user.email" />  
 
             <div class="container-fluid">
-            <h2>Bienvenue Mr.{{user.name}}</h2>
+            <h2>Bienvenue Pr.{{user.name}}</h2>
             <hr>
-                <consulter-options :action_mod="action" />  
+                <consulter-options :action_mod="action_mod" />  
 
                 <calendarStudent /> 
 
@@ -30,13 +30,13 @@ import axios from "axios"
 import appSidebar from "../components/general/appSidebar.vue";
 import appHeader from "../components/general/appHeader.vue";
 import consulter from "../components/student/consulter.vue";
-import calendarStudent from "../components/student/calendar_etudiant.vue";
-import pfe_student from "../components/student/pfe_student.vue";
+import calendarStudent from "../components/student/calendar_etudiant.vue";  //to calendatProf later!!
+import pfe_student from "../components/student/pfe_student.vue";   //same + add comment !!
 
 
 
 export default{
-name:"etudiant", 
+name:"professor", 
 
 components:{
   'webapp-sidebar':appSidebar,
@@ -48,51 +48,40 @@ components:{
 
 },
 methods:{
-    changedId:function(value){
+  changedId:function(value){
       this.divId=value;
   },
+  sleep:function(ms){
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 },
 
 data(){
   return {
     user:"",
     divId:"c-app",
-    action:"Consulter",
-    tache:[
-        [
-            "prof John",
-            "java EE - 14:00"
-    ],
-    [
-            "prof achak",
-            "Web dev - 10:00"
-    ],
-    [
-            "prof zili",
-            "Android - 16:00"
-    ],
+    action_mod:"Gerer",
+    tache:[['ahmed MELLOUK',"Jeu Android"],
+    ["Nora youssefi","Site web Ecommerce ASP"],
+    ["john wick","kill people"]]
 
-        
-    ]
   }
 },
- 
+
+
 
  async created(){
-  //  set
-try{
-      const response =await axios.get('auth/user-profile');
-      this.user=response.data;
-      console.log(response.data);
+   try{
+    const response = await axios.get('auth/user-profile');
+    console.log(response.data);
+    this.user=response.data;
+
    }
    catch(error){
       this.$router.go(0);
-   }}
-      
-
-    
-    
- }
+   }
+   
+ }}
 
 </script>
 
@@ -107,6 +96,7 @@ try{
 #b-app{
   display: grid;
   grid-template-columns: 104px calc(100% - 104px);
+
 }
 </style>
 

@@ -13,7 +13,7 @@
 
             <form class="form-signin" @submit.prevent="handleSubmit">
             <div class="form-label-group">
-                                <label for="name">Full Name :</label> <br>
+                                <label for="name">Name :</label> <br>
 
                 <input type="text" id="name" class="form-control" v-model="name"  required autofocus>
               </div>
@@ -79,7 +79,7 @@ export default {
     async handleSubmit(){
         
           //submitting the post to the laravel api
-          const response = await axios.post("register",{
+          const response = await axios.post("auth/register",{
                 name:this.name,
                 email:this.email,
                 password:this.password,

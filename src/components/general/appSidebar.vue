@@ -12,7 +12,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">{{Prof}}</div>
+        <div class="sidebar-brand-text mx-3">{{user_name}}</div>
         <!-- {{profName}} -->
       </a>
 
@@ -53,8 +53,9 @@
           data-parent="#accordionSidebar"
         >
           <div class="bg-white py-2 collapse-inner rounded">
+
             <a class="collapse-item" href="modules.html">Java</a>
-            <a class="collapse-item" href="modules.html">Web dev</a>
+            <a class="collapse-item" href="modules.html"></a>
             <a class="collapse-item" href="modules.html">UML</a>
             <a class="collapse-item" href="modules.html">Theorie des graphes</a>
             <a class="collapse-item" href="modules.html">statistique</a>
@@ -103,12 +104,15 @@
 
 <script>
 
-export default {
+export default{
   data(){
     return {
       prof:'Pr.Laachak Lotfi',
       divId:"c-app",
     }
+  },
+  props:{
+    user_name:String,
   },
   
   methods:{

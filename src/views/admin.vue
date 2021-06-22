@@ -10,15 +10,32 @@
             <div class="container-fluid">
             <h2>Bienvenue Mr.{{user.name}}</h2>
             <hr>
-                <consulter-options :action_mod="action" />  
+                <consulter-admin
+                @handleCrudEtud="handleCrudEtud" 
+                @handleCrudProf="handleCrudProf"
+                :action_mod="action" /> 
+                <hr>
+                <div :class=visEtud >
+                    <crudstudent  />
+                    <hr>
+                </div> 
 
-                <calendarStudent /> 
+                <div :class=visProf >
+                    <crudprof  />
+                    <hr>
+                </div> 
 
-                <pfeStudent :pfesujet_tache="tache"/>   
+<div class="consult">
+    <calendarStudent /> 
+</div>
+
+                <!-- <pfeStudent :pfesujet_tache="tache"/>    -->
             </div>
+            
         </div>
 
     </div>
+    
 </template>
 
 
@@ -29,9 +46,12 @@
 import axios from "axios"
 import appSidebar from "../components/general/appSidebar.vue";
 import appHeader from "../components/general/appHeader.vue";
-import consulter from "../components/student/consulter.vue";
+import consulter_admin from "../components/admin/consulter_admin.vue";
 import calendarStudent from "../components/student/calendar_etudiant.vue";
-import pfe_student from "../components/student/pfe_student.vue";
+import crudstudent from "../components/admin/crud/crudstudent.vue";
+import crudprof from "../components/admin/crud/crudprof.vue";
+
+// import pfe_student from "../components/student/pfe_student.vue";
 
 
 
@@ -41,9 +61,12 @@ name:"etudiant",
 components:{
   'webapp-sidebar':appSidebar,
     'webapp-header':appHeader,
-    'consulter-options':consulter,
+    'consulter-admin':consulter_admin,
     'calendarStudent':calendarStudent,
-    'pfeStudent':pfe_student,
+    'crudstudent':crudstudent,
+    'crudprof':crudprof
+
+    // 'pfeStudent':pfe_student,
 
 
 },
@@ -51,13 +74,31 @@ methods:{
     changedId:function(value){
       this.divId=value;
   },
+
+  handleCrudEtud:function(value,value2){
+    console.log("visetud: "+value);
+        console.log("visprof: "+value2);
+
+      this.visEtud=value;
+      this.visProf=value2;
+  },
+  handleCrudProf:function(value,value2){
+      console.log("visprof: "+value);
+        console.log("visetud: "+value2);
+
+      this.visProf=value;
+      this.visEtud=value2;
+  }
+
 },
 
 data(){
   return {
     user:"",
+    visEtud:"hidden",
+    visProf:"hidden",
     divId:"c-app",
-    action:"Consulter",
+    action:"CRUD",
     tache:[
         [
             "prof John",
@@ -80,7 +121,7 @@ data(){
 
  async created(){
   //  set
-try{
+  try{
       const response =await axios.get('auth/user-profile');
       this.user=response.data;
       console.log(response.data);
@@ -108,6 +149,15 @@ try{
   display: grid;
   grid-template-columns: 104px calc(100% - 104px);
 }
+
+
+.visible{
+    display:block;
+}
+.hidden{
+    display:none;
+}
+
 </style>
 
 

@@ -1,37 +1,62 @@
 <template>
-<div >
 
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-        <div class="card card-signin my-5">
-          <div class="card-body">
-            <h5 class="card-title text-center">Sign In</h5>
+<div class="container">
+  hello {{name}}, you're a {{type}}
 
-            <form class="form-signin" @submit.prevent="handleLogin">
-              <div class="form-label-group">
-                <label for="inputEmail">Email address</label> <br>
-                <input type="email" id="inputEmail" class="form-control" v-model="email"  required autofocus>
-              </div>
 
-              <div class="form-label-group">
-                <label for="inputPassword">Password</label> <br>
-                <input type="password" id="inputPassword" class="form-control" v-model="password" required>
-              </div>
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
 
-              <div class="custom-control custom-checkbox mb-3">
-                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                <label class="custom-control-label" for="customCheck1">Remember password</label>
-              </div>
-              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in </button>
-            
-            </form>
-          </div>
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                    </div>
+                                    <form class="user" @submit="handleLogin">
+                                        <div class="form-group">
+                                            <input type="email" class="form-control form-control-user"
+                                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                                placeholder="Enter Email Address..." v-model="email">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control form-control-user"
+                                                id="exampleInputPassword" placeholder="Password" v-model="password">
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox small">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck">
+                                                <label class="custom-control-label" for="customCheck">Remember
+                                                    Me</label>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                            Login
+                                        </button>
+                                
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="forgot-password.html">Oublier mot de passe?</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
-      </div>
-    </div>
-  </div>
 
+    </div>
 
 </template>
 
@@ -54,28 +79,55 @@ export default {
       return {
           
           email:"",
-          password:""
+          password:"",
+          type:"",
+          name:"",
+          error_text:"",
+          user:Object
       }
   },
 
   methods:{
-      async handleLogin(){
-            const response =await axios.post("login",{
+      async handleLogin(e){
+
+        try{
+
+            e.preventDefault();
+            const response =await axios.post("auth/login",{
                 email:this.email,
                 password:this.password,
             });
 
             localStorage.setItem('token',response.data.access_token);
 
-            //console.log(response);
-            console.log(response.data.access_token);
-    }
+            console.log(response);  //logged in user
+            console.log(response.statusText);    //status code
+            // this.error_text=response.statusText;
+            // console.log(this.error_text);    //status code
+
+            if(response.data.user.user_type=="student"){
+              this.$router.push('etudiant') ;
+            }
+ 
+            else if(response.data.user.user_type=="professor"){              
+              this.$router.push('professor') ;  
+            }
+
+            else if(response.data.user.user_type=="admin"){
+              this.$router.push('admin') ;
+            }
+
+
+        
+        }
+        catch(error){
+          alert("Wrong email or password !!");
+        }
+    
   }
 
-};
+}}
 </script>
-
-
 
 
 
