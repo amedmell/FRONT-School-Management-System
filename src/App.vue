@@ -30,14 +30,6 @@ data(){
 },
  
 
-//  async created(){
-//     const response = await axios.get('user-profile');
-//     this.name=response.data.name;
-//     this.email=response.data.email;
-//     console.log(response);
-    
-
-//  }
 }
 
 </script>

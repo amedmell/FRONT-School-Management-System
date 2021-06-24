@@ -8,9 +8,22 @@
             <webapp-header :user_name="user.name" :user_email="user.email" />  
 
             <div class="container-fluid">
-            <h2>Bienvenue Pr.{{user.name}}</h2>
+            <h2>Bienvenue {{user.name}}</h2>
             <hr>
-                <consulter-options :action_mod="action_mod" />  
+        
+                <consulter-options
+                @handleModule="handleModule"
+                @handlePfe="handlePfe"
+                :action_mod="action_mod"
+                 />  
+
+                <div :class=modules>
+                  <modules/>
+                </div>
+
+                <div :class=pfes>
+                  <pfes/>
+                </div>
 
                 <calendarStudent /> 
 
@@ -32,6 +45,8 @@ import appHeader from "../components/general/appHeader.vue";
 import consulter from "../components/student/consulter.vue";
 import calendarStudent from "../components/student/calendar_etudiant.vue";  //to calendatProf later!!
 import pfe_student from "../components/student/pfe_student.vue";   //same + add comment !!
+import modules from "../components/professor/gerer/module.vue";   //same + add comment !!
+import pfes from "../components/professor/gerer/pfe.vue";   //same + add comment !!
 
 
 
@@ -44,16 +59,26 @@ components:{
     'consulter-options':consulter,
     'calendarStudent':calendarStudent,
     'pfeStudent':pfe_student,
-
+    'modules':modules,
+    'pfes':pfes,
 
 },
 methods:{
   changedId:function(value){
       this.divId=value;
   },
-  sleep:function(ms){
-    return new Promise(resolve => setTimeout(resolve, ms));
+  handleModule:function(value,hidden){
+    this.modules=value;
+    this.pfes=hidden;
+    console.log("modules : "+value+"\n"+"Pfes : "+hidden);
+  },
+  handlePfe:function(value,hidden){
+    this.pfes=value;
+    this.modules=hidden;
+    console.log("PFES : "+value+"\n"+"Modules : "+hidden);
+
   }
+
 },
 
 data(){
@@ -63,10 +88,14 @@ data(){
     action_mod:"Gerer",
     tache:[['ahmed MELLOUK',"Jeu Android"],
     ["Nora youssefi","Site web Ecommerce ASP"],
-    ["john wick","kill people"]]
+    ["john wick","kill people"]],
+    modules:"hidden",
+    pfes:"hidden"
 
   }
 },
+
+
 
 
 
@@ -75,6 +104,7 @@ data(){
     const response = await axios.get('auth/user-profile');
     console.log(response.data);
     this.user=response.data;
+
 
    }
    catch(error){
@@ -105,7 +135,13 @@ data(){
 
 
 <style lang="scss">
- 
+ .hidden{
+   display:none;
+ }
+
+ .visible{
+   display:block;
+ }
 
  
 

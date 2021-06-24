@@ -44,7 +44,7 @@
                                                 <div class="col mr-2">
                                                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                         <h5>
-                                                            <a id="card" href="">
+                                                            <a @click="handleCrudPfe">
                                                             <strong>{{action_mod}} PFE</strong> </a>
                                                         </h5></div>
                                                 </div>
@@ -62,7 +62,7 @@
                                                 <div class="col mr-2">
                                                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                         <h5>
-                                                            <a id="card" href="">
+                                                            <a @click="handleCrudMod">
                                                             <strong>{{action_mod}} MODULES</strong> </a>
                                                         </h5></div>
                                                 </div>
@@ -102,7 +102,7 @@
                                                 <div class="col mr-2">
                                                     <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                         <h5>
-                                                            <a id="card" href="">
+                                                            <a @click="handleCrudNote">
                                                             <strong>
                                                                 {{action_mod}} NOTES
                                                             </strong> </a>
@@ -129,7 +129,12 @@ export default{
     data(){
         return {
             displayEtud:"hidden",
-            displayProf:"hidden"
+            displayProf:"hidden",
+            displayPfe:"hidden",
+            displayMod:"hidden",
+            displayNote:"hidden",
+            
+
         }
     },
     methods:{
@@ -137,19 +142,62 @@ export default{
             if(this.displayEtud=="visible"){
                 this.displayEtud="hidden";
             }else{
-                this.displayProf="hidden";
                 this.displayEtud="visible";
+                this.displayProf="hidden";
+                this.displayPfe="hidden";
+                this.displayMod="hidden";
+                this.displayNote="hidden";
             }
-            this.$emit('handleCrudEtud',this.displayEtud,this.displayProf);
+            this.$emit('handleCrudEtud',this.displayEtud,this.displayProf,this.displayPfe,this.displayMod,this.displayNote);
         },
         handleCrudProf:function(){
             if(this.displayProf=="visible"){
                 this.displayProf="hidden";
             }else{
-                this.displayEtud="hidden";
                 this.displayProf="visible";
+                this.displayEtud="hidden";
+                this.displayPfe="hidden";
+                this.displayMod="hidden";
+                this.displayNote="hidden";
             }
-            this.$emit('handleCrudProf',this.displayProf,this.displayEtud);
+            this.$emit('handleCrudProf',this.displayProf,this.displayEtud,this.displayPfe,this.displayMod,this.displayNote);
+        },
+        handleCrudPfe:function(){
+            if(this.displayPfe=="visible"){
+                this.displayPfe="hidden";
+            }else{
+                this.displayPfe="visible";
+                this.displayProf="hidden";
+                this.displayEtud="hidden";
+                this.displayMod="hidden";
+                this.displayNote="hidden";
+
+            }
+            this.$emit('handleCrudPfe',this.displayPfe,this.displayProf,this.displayEtud,this.displayMod,this.displayNote);
+        },
+        handleCrudMod:function(){
+            if(this.displayMod=="visible"){
+                this.displayMod="hidden";
+            }else{
+                this.displayMod="visible";
+                this.displayPfe="hidden";
+                this.displayProf="hidden";
+                this.displayEtud="hidden"; 
+                this.displayNote="hidden";  
+            }
+            this.$emit('handleCrudMod',this.displayMod,this.displayPfe,this.displayProf,this.displayEtud,this.displayNote);
+        },
+        handleCrudNote:function(){
+       if(this.displayNote=="visible"){
+                this.displayNote="hidden";
+            }else{
+                this.displayNote="visible";
+                this.displayPfe="hidden";
+                this.displayProf="hidden";
+                this.displayEtud="hidden"; 
+                this.displayMod="hidden";  
+            }
+            this.$emit('handleCrudNote',this.displayNote,this.displayMod,this.displayPfe,this.displayProf,this.displayEtud);
         }
     }
 }

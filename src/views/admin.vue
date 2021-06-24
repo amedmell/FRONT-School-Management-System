@@ -8,11 +8,16 @@
             <webapp-header :user_name="user.name" :user_email="user.email" />  
 
             <div class="container-fluid">
-            <h2>Bienvenue Mr.{{user.name}}</h2>
+            <h2>Bienvenue {{user.name}}</h2>
             <hr>
                 <consulter-admin
+
                 @handleCrudEtud="handleCrudEtud" 
                 @handleCrudProf="handleCrudProf"
+                @handleCrudPfe="handleCrudPfe"
+                @handleCrudMod="handleCrudMod"
+                @handleCrudNote="handleCrudNote"
+
                 :action_mod="action" /> 
                 <hr>
                 <div :class=visEtud >
@@ -25,11 +30,25 @@
                     <hr>
                 </div> 
 
-<div class="consult">
-    <calendarStudent /> 
-</div>
+                <div :class=visPfe>
+                  <crudpfe />
+                  <hr>
+                </div>
 
-                <!-- <pfeStudent :pfesujet_tache="tache"/>    -->
+                <div :class=visMod>
+                    <crudmodule />
+                    <hr>
+                </div>
+
+                <div :class=visNote>
+                    <crudnote />
+                    <hr>
+                </div>
+
+                <div class="consult">
+                    <calendarStudent /> 
+                </div>
+
             </div>
             
         </div>
@@ -43,13 +62,16 @@
 
 <script>
 
-import axios from "axios"
+import axios from "axios";
 import appSidebar from "../components/general/appSidebar.vue";
 import appHeader from "../components/general/appHeader.vue";
 import consulter_admin from "../components/admin/consulter_admin.vue";
 import calendarStudent from "../components/student/calendar_etudiant.vue";
 import crudstudent from "../components/admin/crud/crudstudent.vue";
 import crudprof from "../components/admin/crud/crudprof.vue";
+import crudpfe from "../components/admin/crud/crudpfe.vue";
+import crudmodule from "../components/admin/crud/crudmodule.vue";
+import crudnote from "../components/admin/crud/crudnote.vue";
 
 // import pfe_student from "../components/student/pfe_student.vue";
 
@@ -59,14 +81,15 @@ export default{
 name:"etudiant", 
 
 components:{
-  'webapp-sidebar':appSidebar,
+    'webapp-sidebar':appSidebar,
     'webapp-header':appHeader,
     'consulter-admin':consulter_admin,
     'calendarStudent':calendarStudent,
     'crudstudent':crudstudent,
-    'crudprof':crudprof
-
-    // 'pfeStudent':pfe_student,
+    'crudprof':crudprof,
+    'crudpfe':crudpfe,
+    'crudmodule':crudmodule,
+    'crudnote':crudnote
 
 
 },
@@ -75,20 +98,48 @@ methods:{
       this.divId=value;
   },
 
-  handleCrudEtud:function(value,value2){
-    console.log("visetud: "+value);
-        console.log("visprof: "+value2);
-
-      this.visEtud=value;
+  handleCrudEtud:function(value,value2,value3,value4,value5){
+      this.visEtud=value;  //correct
       this.visProf=value2;
+      this.visPfe=value3;
+      this.visMod=value4;
+      this.visNote=value5;
   },
-  handleCrudProf:function(value,value2){
-      console.log("visprof: "+value);
-        console.log("visetud: "+value2);
-
-      this.visProf=value;
+  handleCrudProf:function(value,value2,value3,value4,value5){
+      this.visProf=value;  //correct
       this.visEtud=value2;
+      this.visPfe=value3;
+      this.visMod=value4;
+      this.visNote=value5;
+
+  },
+  handleCrudPfe:function(value,value2,value3,value4,value5){
+      this.visPfe=value;  //correct
+      this.visEtud=value2;
+      this.visProf=value3;
+      this.visMod=value4;
+      this.visNote=value5;
+
+  },
+  handleCrudMod:function(value,value2,value3,value4,value5){
+      this.visMod=value;   //correct
+      this.visPfe=value4;  
+      this.visEtud=value2;
+      this.visProf=value3;
+      this.visNote=value5;
+
+  },
+   handleCrudNote:function(value,value2,value3,value4,value5){
+      this.visNote=value;   //correct
+      this.visEtud=value2;
+      this.visProf=value3;
+      this.visPfe=value4;  
+      this.visMod=value5;
   }
+
+
+
+
 
 },
 
@@ -97,6 +148,10 @@ data(){
     user:"",
     visEtud:"hidden",
     visProf:"hidden",
+    visPfe:"hidden",
+    visMod:"hidden",
+    visNote:"hidden",
+
     divId:"c-app",
     action:"CRUD",
     tache:[
