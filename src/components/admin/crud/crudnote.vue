@@ -6,7 +6,7 @@
   <form class="form-inline" >
       <div class="form-group mb-2 ">
     <label  class="sr-only">Etudiant:</label>
-    <input type="text"  v-model="etudiant" name="Etudiant"  class="form-control" placeholder="Etudiant" >
+    <input disabled type="text"  v-model="etudiant" name="Etudiant"  class="form-control" placeholder="Etudiant" >
   </div>
     <div class="form-group mb-2">
     <label for="name" class="sr-only">Note:</label>
@@ -18,10 +18,10 @@
   </div>
   <div class="form-group mb-2 ">
     <label  class="sr-only">Module:</label>
-    <input type="text"  v-model="mod" name="module"  class="form-control" placeholder="module" >
+    <input disabled type="text"  v-model="mod" name="module"  class="form-control" placeholder="module" >
   </div>
  
-  <input  type="submit" id='save' class="btn btn-success mb-2" @click="createNOTE" value="Ajouter NOTE ">
+  <!-- <input  type="submit" id='save' class="btn btn-success mb-2" @click="createNOTE" value="Ajouter NOTE "> -->
   <input  type="submit" id='save' class="btn btn-primary mb-2" @click="updateNOTE" value="Modifier NOTE">
 
 </form>

@@ -100,11 +100,12 @@ methods:{
           password_confirmation:this.password_confirmation,
           user_type:"student"
         });
+        console.log(this.name+" "+this.email+" "+this.password+" "+this.password_confirmation);
         console.log(response);
 
-        window.setTimeout(() => {    //sleep for 3 seconds, then refresh page
-          this.$router.go(0)
-        }, 3000);
+        // window.setTimeout(() => {    //sleep for 3 seconds, then refresh page
+        //   this.$router.go(0)
+        // }, 3000);
         
 
   },

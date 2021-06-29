@@ -1,36 +1,39 @@
 <template>
     <div v-bind:id=divId>
-
-        <webapp-sidebar  @changeId="changedId" :user_name="user.name"/> 
+        <webapp-sidebar  @changeId="changedId" :user_name="user.name" :email="user.email"/> 
 <!-- -----------------------NOITHING IN HERE ------------------------------------------->
         <div id="content" >
-
             <webapp-header :user_name="user.name" :user_email="user.email" />  
 
-            <div class="container-fluid">
-            <h2>Bienvenue {{user.name}}</h2>
-            <hr>
-        
-                <consulter-options
-                @handleModule="handleModule"
-                @handlePfe="handlePfe"
-                :action_mod="action_mod"
-                 />  
+              <div class="container-fluid">
+                  <h2>Bienvenue {{user.name}}</h2>
+                  <hr>
+          
+                  <consulter-options
+                  @handleModule="handleModule"
+                  @handlePfe="handlePfe"
+                  @handleNote="handleNote"
+                  :action_mod="action_mod"
+                  />  
+                  
+                  <hr>
 
-                <div :class=modules>
-                  <modules/>
-                </div>
+                  <div :class=modules>
+                    <modules/>
+                  </div>
 
-                <div :class=pfes>
-                  <pfes/>
-                </div>
+                  <div :class=pfes>
+                    <pfes/>
+                  </div>
 
-                <calendarStudent /> 
-
-                <pfeStudent :pfesujet_tache="tache"/>   
-            </div>
+                  <div :class=note>
+                    <notes/>
+                  </div>            <hr>
+                        
+                  <calendarProf />   <hr>
+                      
+              </div>
         </div>
-
     </div>
 </template>
 
@@ -40,14 +43,13 @@
 <script>
 
 import axios from "axios"
-import appSidebar from "../components/general/appSidebar.vue";
+import appSidebar from "../components/professor/sidebar.vue";
 import appHeader from "../components/general/appHeader.vue";
 import consulter from "../components/student/consulter.vue";
-import calendarStudent from "../components/student/calendar_etudiant.vue";  //to calendatProf later!!
-import pfe_student from "../components/student/pfe_student.vue";   //same + add comment !!
-import modules from "../components/professor/gerer/module.vue";   //same + add comment !!
-import pfes from "../components/professor/gerer/pfe.vue";   //same + add comment !!
-
+import calendarProf from "../components/professor/gerer/calendar_prof.vue";  
+import modules from "../components/professor/gerer/module.vue";   
+import pfes from "../components/professor/gerer/pfe.vue";   
+import notes from "../components/professor/gerer/notes.vue";
 
 
 export default{
@@ -57,26 +59,31 @@ components:{
   'webapp-sidebar':appSidebar,
     'webapp-header':appHeader,
     'consulter-options':consulter,
-    'calendarStudent':calendarStudent,
-    'pfeStudent':pfe_student,
+    'calendarProf':calendarProf,
     'modules':modules,
     'pfes':pfes,
+    'notes':notes,
+
 
 },
 methods:{
   changedId:function(value){
       this.divId=value;
   },
-  handleModule:function(value,hidden){
+  handleModule:function(value,hidden,hidden2){
     this.modules=value;
     this.pfes=hidden;
-    console.log("modules : "+value+"\n"+"Pfes : "+hidden);
+    this.note=hidden2;
   },
-  handlePfe:function(value,hidden){
+  handlePfe:function(value,hidden,hidden2){
     this.pfes=value;
     this.modules=hidden;
-    console.log("PFES : "+value+"\n"+"Modules : "+hidden);
-
+    this.note=hidden2;
+  },
+   handleNote:function(value,hidden,hidden2){
+    this.note=value;
+    this.modules=hidden;
+    this.pfes=hidden2;
   }
 
 },
@@ -85,12 +92,13 @@ data(){
   return {
     user:"",
     divId:"c-app",
-    action_mod:"Gerer",
+    action_mod:"Consulter",
     tache:[['ahmed MELLOUK',"Jeu Android"],
     ["Nora youssefi","Site web Ecommerce ASP"],
     ["john wick","kill people"]],
     modules:"hidden",
-    pfes:"hidden"
+    pfes:"hidden",
+    note:"hidden"
 
   }
 },
@@ -128,13 +136,6 @@ data(){
   grid-template-columns: 104px calc(100% - 104px);
 
 }
-</style>
-
-
-
-
-
-<style lang="scss">
  .hidden{
    display:none;
  }
@@ -143,6 +144,8 @@ data(){
    display:block;
  }
 
- 
-
 </style>
+
+
+
+

@@ -1,60 +1,47 @@
 <template>
     <div v-bind:id=divId>
-
         <webapp-sidebar  @changeId="changedId" :user_name="user['name']" /> 
 <!-- -----------------------NOITHING IN HERE ------------------------------------------->
         <div id="content" >
-
             <webapp-header :user_name="user.name" :user_email="user.email" />  
 
             <div class="container-fluid">
             <h2>Bienvenue {{user.name}}</h2>
             <hr>
                 <consulter-admin
-
                 @handleCrudEtud="handleCrudEtud" 
                 @handleCrudProf="handleCrudProf"
                 @handleCrudPfe="handleCrudPfe"
                 @handleCrudMod="handleCrudMod"
                 @handleCrudNote="handleCrudNote"
-
                 :action_mod="action" /> 
                 <hr>
                 <div :class=visEtud >
                     <crudstudent  />
                     <hr>
                 </div> 
-
                 <div :class=visProf >
                     <crudprof  />
                     <hr>
                 </div> 
-
                 <div :class=visPfe>
                   <crudpfe />
                   <hr>
                 </div>
-
                 <div :class=visMod>
                     <crudmodule />
                     <hr>
                 </div>
-
                 <div :class=visNote>
                     <crudnote />
                     <hr>
                 </div>
 
-                <div class="consult">
-                    <calendarStudent /> 
-                </div>
+                <calendaradmin /> 
 
             </div>
-            
         </div>
-
     </div>
-    
 </template>
 
 
@@ -66,7 +53,7 @@ import axios from "axios";
 import appSidebar from "../components/general/appSidebar.vue";
 import appHeader from "../components/general/appHeader.vue";
 import consulter_admin from "../components/admin/consulter_admin.vue";
-import calendarStudent from "../components/student/calendar_etudiant.vue";
+import calendaradmin from "../components/admin/calendar.vue";
 import crudstudent from "../components/admin/crud/crudstudent.vue";
 import crudprof from "../components/admin/crud/crudprof.vue";
 import crudpfe from "../components/admin/crud/crudpfe.vue";
@@ -84,7 +71,7 @@ components:{
     'webapp-sidebar':appSidebar,
     'webapp-header':appHeader,
     'consulter-admin':consulter_admin,
-    'calendarStudent':calendarStudent,
+    'calendaradmin':calendaradmin,
     'crudstudent':crudstudent,
     'crudprof':crudprof,
     'crudpfe':crudpfe,
@@ -175,7 +162,6 @@ data(){
  
 
  async created(){
-  //  set
   try{
       const response =await axios.get('auth/user-profile');
       this.user=response.data;
@@ -185,7 +171,6 @@ data(){
       this.$router.go(0);
    }}
       
-
     
     
  }
@@ -212,6 +197,8 @@ data(){
 .hidden{
     display:none;
 }
+
+
 
 </style>
 

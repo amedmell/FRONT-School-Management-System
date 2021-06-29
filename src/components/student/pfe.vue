@@ -29,7 +29,13 @@ export default {
  async created(){
     try{
         const module = await axios.get('student/getpfes');
+        
         this.pfes=module.data;
+
+        if((this.pfes).length==0){
+            console.log("NO PFE !!");
+        }
+        
         console.log(this.pfes);
     }
     catch(error){
@@ -37,7 +43,6 @@ export default {
         //this.$router.go(0);
     }
     //console.log(this.modules);
-   
  },
 
     

@@ -1,11 +1,14 @@
 <template>
-    <div class="row" v-for="mod in modules" :key="mod.id">
-       <div class="col">
+    <div class="row" >
+       <div class="col" v-for="mod in modules" :key="mod.id">
             <div class="card " style="width: 18rem;">
-                <img class="card-img-top" src="" alt="Card image cap">
+                <img class="card-img-top" :src="image" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title">{{mod.nom_module}}</h5>
-                    <a href="#" class="btn btn-primary">Visit Module</a>
+                    <h5 class="card-title">
+                        <strong>
+                            {{mod.nom_module}}
+                        </strong>
+                    </h5>
                 </div>
             </div>
        </div>
@@ -15,12 +18,15 @@
 
 <script>
 import axios from "axios"
+import image from "../../assets/image1.jpg"
 
 export default {
     name:"modules",
+    
     data(){
         return {
-            modules:Object
+            modules:Object,
+            image:image
         }
     },
     
@@ -32,9 +38,7 @@ export default {
     }
     catch(error){
         console.log(error);
-        //this.$router.go(0);
     }
-    //console.log(this.modules);
    
  },
 
@@ -44,9 +48,10 @@ export default {
 
 
 <style scoped>
-.modules{
-    display:grid;
-    grid-template-columns: repeat(2,1fr);
+
+
+strong{
+    color:rgb(91, 91, 201);
 }
 </style>
 

@@ -1,27 +1,35 @@
 <template>
-    <div class="row" v-for="mod in modules" :key="mod.id">
-       <div class="modules">
+<div class="main" >
+
+    <div class="row" >
+       <div class="col" v-for="mod in modules" :key="mod.id">
             <div class="card " style="width: 18rem;">
-                <img class="card-img-top" src="" alt="Card image cap">
+                <img class="card-img-top" :src="image" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title">{{mod.nom_module}}</h5>
-                    <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-                    <a href="#" class="btn btn-primary">Visit Module</a>
+                   <h5 class="card-title">
+                        <strong>
+                            {{mod.nom_module}}
+                        </strong>
+                    </h5>
                 </div>
             </div>
        </div>
     </div>
+
+</div>
 </template>
 
 
 <script>
 import axios from "axios"
+import image from "../../../assets/image1.jpg"
 
 export default {
     name:"modules",
     data(){
         return {
-            modules:Object
+            modules:Object,
+             image: image
         }
     },
     
@@ -33,9 +41,7 @@ export default {
     }
     catch(error){
         console.log(error);
-        //this.$router.go(0);
     }
-    //console.log(this.modules);
    
  },
 
@@ -45,9 +51,10 @@ export default {
 
 
 <style scoped>
-.modules{
-    display:grid;
-    grid-template-columns: repeat(2,1fr);
+.main{
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 </style>
 

@@ -7,7 +7,7 @@
       <!-- Sidebar - Brand -->
       <a
         class="sidebar-brand d-flex align-items-center justify-content-center"
-        href="/professor"
+        href="/etudiant"
       >
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-laugh-wink"></i>
@@ -20,8 +20,10 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="/professor">
-          <span>Mon Profile</span></a
+        <a class="nav-link" href="/etudiant">
+          <span>
+            {{email}}  
+            </span></a
         >
       </li>
 
@@ -50,32 +52,41 @@
           aria-labelledby="headingTwo"
           data-parent="#accordionSidebar"
         >
-        
+          <div class="bg-white py-2 collapse-inner rounded" v-for="mod in modules" :key="mod.id">
+            <a class="collapse-item" >{{mod.nom_module}}</a>
+          </div>
         </div>
       </li>
 
       <!-- Nav Items-->
 
-      <li class="nav-item active">
-        <a class="nav-link" >
-          <i class="fas fa-fw fa-chart-area"></i>
+       <!-- --------PFE------------ -->
+      <!-- Nav Items-->
+      <li class="nav-item">
+        <a
+          class="nav-link collapsed"
+          href="#"
+          data-toggle="collapse"
+          data-target="#collapseTwo"
+          aria-expanded="true"
+          aria-controls="collapseTwo"
+        >
+          <i class="fas fa-fw fa-project"></i>
           <span>PFE</span>
         </a>
+        <div
+          id="collapseTwo"
+          class="collapse"
+          aria-labelledby="headingTwo"
+          data-parent="#accordionSidebar"
+        >
+          <div class="bg-white py-2 collapse-inner rounded" v-for="pfe in pfes" :key="pfe.id">
+            <a class="collapse-item" >{{pfe.sujet_pfe}}</a>
+          </div>
+        </div>
       </li>
 
-      <li class="nav-item active">
-        <a class="nav-link">
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>Emploi de temps</span>
-        </a>
-      </li>
-
-      <li class="nav-item active">
-        <a class="nav-link" >
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>Notes des Etudiants</span>
-        </a>
-      </li>
+     
 
       <!-- Divider -->
       <hr class="sidebar-divider" />
@@ -95,12 +106,14 @@ import axios from "axios"
 export default{
   data(){
     return {
-      prof:'Pr.Laachak Lotfi',
       divId:"c-app",
+      modules:Object,
+      pfes:Object,
     }
   },
   props:{
     user_name:String,
+    email:String,
   },
   
   methods:{
@@ -117,9 +130,10 @@ export default{
   },
   async created(){
     try{
-        const module = await axios.get('professor/getmodules');
+         const module = await axios.get('student/getmodules');
+        const pfes = await axios.get('student/getpfes');
         this.modules=module.data;
-        console.log(this.modules);
+        this.pfes=pfes.data;
     }
     catch(error){
         console.log(error);

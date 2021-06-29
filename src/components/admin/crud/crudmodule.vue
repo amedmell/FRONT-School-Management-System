@@ -5,14 +5,14 @@
   <form class="form-inline" >
     <div class="form-group mb-2">
     <label for="name" class="sr-only">Modules:</label>
-    <input type="text" v-model="mod" name="sujet"  class="form-control" id="name" placeholder="Sujet PFE">
+    <input type="text" v-model="mod" name="sujet"  class="form-control" id="name" placeholder="Module">
   </div>
   <div class="form-group mb-2 ">
     <label  class="sr-only">Professeur:</label>
-    <input type="text"  v-model="prof" name="deadline"  class="form-control" placeholder="Dealdline" >
+    <input type="text"  v-model="prof" name="deadline"  class="form-control" placeholder="Nom Professeur" >
   </div>
 
-  <input  type="submit" id='save' class="btn btn-success mb-2" @click="createMOD" value="Creer MODULE ">
+  <!-- <input  type="submit" id='save' class="btn btn-success mb-2" @click="createMOD" value="Creer MODULE "> -->
   <input  type="submit" id='save' class="btn btn-primary mb-2" @click="updateMOD" value="Modifier MODULE">
 
 </form>

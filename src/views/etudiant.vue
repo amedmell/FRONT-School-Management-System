@@ -1,7 +1,7 @@
 <template>
     <div v-bind:id=divId>
 
-        <webapp-sidebar  @changeId="changedId" :user_name="user['name']" /> 
+        <webapp-sidebar  @changeId="changedId" :user_name="user['name']" :email="user.email" /> 
 <!-- -----------------------NOITHING IN HERE ------------------------------------------->
         <div id="content" >
 
@@ -13,22 +13,27 @@
                 <consulter-options
                 @handleModule="handleModule"
                 @handlePfe="handlePfe"
+                @handleNote="handleNote"
 
                  :action_mod="action" />  
-
+<hr>
                 <div :class=modules>
                   <modules />
                 </div>
+
                 <div :class=pfes>
                   <pfes />
                 </div>
+
+                <div :class=notes>
+                  <notes />
+                </div>
+
+                
                 <calendarStudent /> 
 
 
-
-
-
-                <pfeStudent :pfesujet_tache="tache"/>   
+                <!-- <pfeStudent :pfesujet_tache="tache"/>    -->
             </div>
         </div>
 
@@ -41,13 +46,12 @@
 <script>
 
 import axios from "axios"
-import appSidebar from "../components/general/appSidebar.vue";
+import appSidebar from "../components/student/sidebar.vue";
 import appHeader from "../components/general/appHeader.vue";
 import consulter from "../components/student/consulter_student.vue";
 import calendarStudent from "../components/student/calendar_etudiant.vue";
-import pfe_student from "../components/student/pfe_student.vue";
 import modules from "../components/student/modules.vue";
-
+import notes from "../components/student/note.vue";
 import pfes from "../components/student/pfe.vue";
 
 
@@ -59,10 +63,9 @@ components:{
     'webapp-header':appHeader,
     'consulter-options':consulter,
     'calendarStudent':calendarStudent,
-    'pfeStudent':pfe_student,
     'modules':modules,
-    'pfes':pfes
-
+    'pfes':pfes,
+    'notes':notes,
 
 },
 methods:{
@@ -70,15 +73,25 @@ methods:{
       this.divId=value;
   },
 
-   handleModule:function(value,hidden){
+   handleModule:function(value,hidden,hidden2){
     this.modules=value;
     this.pfes=hidden;
-    console.log("modules : "+value+"\n"+"Pfes : "+hidden);
+    this.notes=hidden2;
+
   },
-  handlePfe:function(value,hidden){
+  handlePfe:function(value,hidden,hidden2){
     this.pfes=value;
     this.modules=hidden;
-    console.log("PFES : "+value+"\n"+"Modules : "+hidden);
+    this.notes=hidden2;
+
+
+  },
+  handleNote:function(value,hidden,hidden2){
+    this.notes=value;
+    this.modules=hidden;
+    this.pfes=hidden2;
+
+    
 
   }
 },
@@ -90,41 +103,21 @@ data(){
     action:"Consulter",
     modules:"hidden",
     pfes:"hidden",
-    tache:[
-        [
-            "prof John",
-            "java EE - 14:00"
-    ],
-    [
-            "prof achak",
-            "Web dev - 10:00"
-    ],
-    [
-            "prof zili",
-            "Android - 16:00"
-    ],
-
-        
-    ]
+    notes:"hidden",
   }
 },
  
 
- async created(){
-  //  set
-try{
-      const response =await axios.get('auth/user-profile');
-      this.user=response.data;
-      console.log(response.data);
-   }
-   catch(error){
-      this.$router.go(0);
-   }}
-      
-
-    
-    
- }
+async created(){
+  try{
+        const response =await axios.get('auth/user-profile');
+        this.user=response.data;
+        console.log(response.data);
+    }
+    catch(error){
+        this.$router.go(0);
+    }}  
+}
 
 </script>
 
@@ -140,15 +133,18 @@ try{
   display: grid;
   grid-template-columns: 104px calc(100% - 104px);
 }
+
+.hidden{
+  display:none;
+}
+
+.visible{
+  display:block;
+}
 </style>
 
 
 
 
 
-<style lang="scss">
- 
 
- 
-
-</style>

@@ -1,8 +1,11 @@
 <template>
-<div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+<div class="card shadow mb-4" >
+                                    <!--                                                    
+                              :on-event-create="onEventCreate"
+                                :cell-click-hold="false"
+                                                    :drag-to-create-event="false"
+ -->                    <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Emploi De Temps</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -22,9 +25,28 @@
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-area">
-                                        <div id="calendar" style="width: 100%; height: 100%;"></div>
+                                        <div style="width: 100%; height: 100%;">
+                                               
+                                               
 
-  <!-- <FullCalendar  /> -->
+                                                  <VueCal 
+                                                  small                                                
+                                                    hide-view-selector
+                                                    hide-title-bar
+                                                    :events="events"
+                                                  
+                                                    :time-from="8 * 60" 
+                                                    :time-to="19 * 60" 
+                                                    :time-step="60" 
+                                                    :hide-weekdays="[7]"
+                                                    active-view="week"
+                                                    :disable-views="['years', 'year','month','day']"
+                                                    style="height: 100%"
+                                                  />
+
+
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -34,38 +56,45 @@
 
 
 <script>
-// //-------------------FULL CALENDAR API----------------------------//
-// // import '@fullcalendar/core/vdom' // solves problem with Vite
-// import FullCalendar from '@fullcalendar/vue'
-// // import dayGridPlugin from '@fullcalendar/daygrid'
-// // import interactionPlugin from '@fullcalendar/interaction'
-// //---------------------------------------------------------------//
+import axios from "axios"
+import VueCal from 'vue-cal'
+import 'vue-cal/dist/vuecal.css'
 
-// export default{
-//     name:"calendarStudent",
 
-// // setup(){
-//     mounted:()=>{
-//         document.addEventListener('DOMContentLoaded', function() {
-//           var calendarEl = document.getElementById('calendar');
+export default {
+  components: { VueCal },
+  data(){
+    return {
+      events: []
+   } 
+  },
 
-//           var calendar = new FullCalendar.Calendar(calendarEl, {
-//             initialView: 'dayGridWeek',
-//             height:'100%',
-//             headerToolbar:false,
-//             dayHeaderFormat:{ weekday: 'long' },
+  async created(){
+   try{
+    const eventsData = await axios.get('student/getevents');
 
-//             slotMinTime:'08:00:00',
-//             slotMaxTime:'18:00:00',
-//             hiddenDays: [0,7], // hide Saturday and Sunday
-//             expandRows:true,
-        
-//           });
-       
-//           calendar.render();
-//         })
-//     }
-// // },
+    //adds the events to calendar once logged in
+    (eventsData.data).forEach(event => {
 
-// }
+          this.events.push({
+          start:(event.start_time).replace('T',' ').replace('.000Z',''),
+          end:(event.end_time).replace('T',' ').replace('.000Z',''),
+          title:event.event_name,
+
+        });
+      
+    });
+    
+    console.log(eventsData.data);
+  
+
+   }
+   catch(error){
+     console.log(error);
+   }
+   
+ }
+ 
+}
+
 </script>
