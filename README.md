@@ -1,31 +1,7 @@
-# gestion_etudiant
+# School Management Website - Vue.js
 
-## Project setup
-```
-npm install
-```
+## This project is the front end of a rest api web application for the management o the faculty of science of tangier
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## This project is the 'end of module' project for the web development module
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-"# GestionVue" 
-# lsi-App
+## Delivered : 30 june 2021
